@@ -1,10 +1,15 @@
-#EaseCationWebsite 开发规范
+# EaseCationWebsite 开发规范
 > By PengYue 2020年5月4日更新
 
+
 # 一、命名规范
-##1. 图片命名规范
+
+### 1. 图片命名规范
+
 图片命名使用英文单词，词与词之间使用“-”隔开，如“crystal-wars.png”。
-###主站图片
+
+#### 主站图片
+
 主站图片放置至/images目录
 
 /images/game -> 小游戏介绍页配图，每张图片命名为该小游戏英文名
@@ -15,13 +20,17 @@
 
 /images/nick -> nickID介绍页配图
 
-###服务中心图片
+#### 服务中心图片
+
 服务中心图片放置至/service/images目录
 
-##2. HTML文件命名规范
+### 2. HTML文件命名规范
+
 HTML文件命名使用英文单词，词与词之间使用“-”隔开，如“crystal-wars.html”。
 
-#二、目录设置
+
+# 二、目录设置
+
 /images -> 主站图片
 
 /assets-> 主站js、css文件
