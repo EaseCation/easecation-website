@@ -1,0 +1,599 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>EaseCation 在线数可视化系统</title>
+
+    <style>
+        body {
+            background: rgba(0, 2, 9, 0.91);
+        }
+
+        form {
+            width: 60%;
+            padding: 20px;
+            text-align: center;
+            color: white;
+        }
+
+        form input {
+            border: 1px solid gray;
+            background: rgba(37, 42, 56, 0.08);
+            cursor: pointer;
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            border-radius: 4px;
+            vertical-align: middle;
+            height: 25px;
+            color: white;
+            margin-right: 10px;
+        }
+
+        form button {
+            border: none;
+            padding: 7px 20px 7px 20px;
+            background: #5cb85c;
+            cursor: pointer;
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            border-radius: 4px;
+            vertical-align: middle;
+            margin-left: 10px;
+            color: white;
+        }
+
+        .wrapper {
+            padding-top: 20px;
+            background: #252a38;
+            box-shadow: 0 22px 35px -16px rgba(0, 0, 0, 0.71);
+            max-width: 80%;
+            margin: 35px auto;
+            border-radius: 4px;
+            -moz-border-radius: 4px; /* Old Firefox */
+        }
+
+        .startload {
+            text-align: center;
+            color: #5cb85c;
+            padding-bottom: 20px;
+            -webkit-animation: glitter 4s linear infinite normal;
+            -moz-animation: glitter 4s linear infinite normal;
+            -ms-animation: glitter 4s linear infinite normal;
+            animation: glitter 4s linear infinite normal;
+        }
+
+        .chart-bar {
+            position: relative;
+            margin-top: -38px;
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+        }
+
+        h3 {
+            text-align: center;
+            color: white;
+        }
+
+        .fail {
+            text-align: center;
+            color: #e0756e;
+            padding-bottom: 20px;
+        }
+
+        #loading {
+            margin: 0 auto;
+        }
+        #loading .outer {
+            border: 5px solid rgba(0, 229, 183, 0.9);
+            opacity: .9;
+            border-right-color: transparent;
+            border-left-color: transparent;
+            width: 50px;
+            height: 50px;
+            margin: 0 auto;
+            border-radius: 50%;
+            -webkit-box-shadow: 0 0 35px rgba(0, 76, 61, 0.9);
+            -moz-box-shadow: 0 0 35px rgba(0, 76, 61, 0.9);
+            box-shadow: 0 0 35px rgba(0, 76, 61, 0.9);
+            -webkit-animation: spin-pulse 1s linear infinite normal;
+            -moz-animation: spin-pulse 1s linear infinite normal;
+            -ms-animation: spin-pulse 1s linear infinite normal;
+            animation: spin-pulse 1s linear infinite normal;
+            -webkit-animation-delay: 0s;
+            -moz-animation-delay: 0s;
+            -o-animation-delay: 0s;
+            animation-delay: 0s;
+        }
+        #loading .inner {
+            border: 5px solid rgba(0, 229, 183, 0.9);
+            opacity: .9;
+            border-left-color: transparent;
+            border-right-color: transparent;
+            border-radius: 50%;
+            -webkit-box-shadow: 0 0 15px rgba(0, 76, 61, 0.9);
+            -moz-box-shadow: 0 0 15px rgba(0, 76, 61, 0.9);
+            box-shadow: 0 0 15px rgba(0, 76, 61, 0.9);
+            width: 30px;
+            height: 30px;
+            position: relative;
+            top: -50px;
+            margin: 0 auto;
+            -webkit-animation: spin-right 1s linear infinite normal;
+            -moz-animation: spin-right 1s linear infinite normal;
+            -ms-animation: spin-right 1s linear infinite normal;
+            animation: spin-right 1s linear infinite normal;
+            -webkit-animation-delay: 0s;
+            -moz-animation-delay: 0s;
+            -o-animation-delay: 0s;
+            animation-delay: 0s;
+        }
+        @keyframes glitter {
+            from {
+                text-shadow: none;
+                opacity: 0.8;
+            }
+            50% {
+                text-shadow: 0 0 5px;
+                opacity: 1.0;
+            }
+            to {
+                text-shadow: none;
+                opacity: 0.8;
+            }
+        }
+        @keyframes spin-right {
+            from {
+                transform: rotate(0deg);
+                opacity: 0.2;
+            }
+            50% {
+                transform: rotate(180deg);
+                opacity: 1.0;
+            }
+            to {
+                transform: rotate(360deg);
+                opacity: 0.2;
+            }
+        }
+        @-moz-keyframes spin-right {
+            from {
+                -moz-transform: rotate(0deg);
+                opacity: 0.2;
+            }
+            50% {
+                -moz-transform: rotate(180deg);
+                opacity: 1.0;
+            }
+            to {
+                -moz-transform: rotate(360deg);
+                opacity: 0.2;
+            }
+        }
+        @-webkit-keyframes spin-right {
+            from {
+                -webkit-transform: rotate(0deg);
+                opacity: 0.2;
+            }
+            50% {
+                -webkit-transform: rotate(180deg);
+                opacity: 1.0;
+            }
+            to {
+                -webkit-transform: rotate(360deg);
+                opacity: 0.2;
+            }
+        }
+        @keyframes spin-left {
+            from {
+                transform: rotate(0deg);
+                opacity: 0.2;
+            }
+            50% {
+                transform: rotate(-180deg);
+                opacity: 1.0;
+            }
+            to {
+                transform: rotate(-360deg);
+                opacity: 0.2;
+            }
+        }
+        @-moz-keyframes spin-left {
+            from {
+                -moz-transform: rotate(0deg);
+                opacity: 0.2;
+            }
+            50% {
+                -moz-transform: rotate(-180deg);
+                opacity: 1.0;
+            }
+            to {
+                -moz-transform: rotate(-360deg);
+                opacity: 0.2;
+            }
+        }
+        @-webkit-keyframes spin-left {
+            from {
+                -webkit-transform: rotate(0deg);
+                opacity: 0.2;
+            }
+            50% {
+                -webkit-transform: rotate(-180deg);
+                opacity: 1.0;
+            }
+            to {
+                -webkit-transform: rotate(-360deg);
+                opacity: 0.2;
+            }
+        }
+        @keyframes spin-pulse {
+            from {
+                transform: rotate(160deg);
+                opacity: 0;
+                box-shadow: 0 0 1px rgba(0, 61, 76, 0.9);
+            }
+            50% {
+                transform: rotate(145deg);
+                opacity: 1;
+            }
+            to {
+                transform: rotate(-320deg);
+                opacity: 0;
+            }
+        }
+        @-moz-keyframes spin-pulse {
+            from {
+                -moz-transform: rotate(160deg);
+                opacity: 0;
+                box-shadow: 0 0 1px rgba(0, 61, 76, 0.9);
+            }
+            50% {
+                -moz-transform: rotate(145deg);
+                opacity: 1;
+            }
+            to {
+                -moz-transform: rotate(-320deg);
+                opacity: 0;
+            }
+        }
+        @-webkit-keyframes spin-pulse {
+            from {
+                -webkit-transform: rotate(160deg);
+                opacity: 0;
+                box-shadow: 0 0 1px rgba(0, 61, 76, 0.9);
+            }
+            50% {
+                -webkit-transform: rotate(145deg);
+                opacity: 1;
+            }
+            to {
+                -webkit-transform: rotate(-320deg);
+                opacity: 0;
+            }
+        }
+
+    </style>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?982dd697bd6ec3d26d7aa28e6bff65c2";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+</head>
+<body>
+
+<form class="wrapper" action="">
+    <h1 style="margin-top:10px; padding-bottom:11px;">EaseCation Network 在线用户数可视化系统</h1>
+    <label for="start">起始：</label>
+    <input id="start" name="start" type="datetime-local"/>
+
+    <label for="end">终止：</label>
+    <input id="end" name="end" type="datetime-local" />
+    <button type="submit">GO</button>
+</form>
+
+<script src="js/apexcharts.js"></script>
+
+<script>
+    var statistics = [];
+    Date.prototype.format = function(format) {
+        var o = {
+            "M+" : this.getMonth()+1, //month
+            "d+" : this.getDate(),    //day
+            "h+" : this.getHours(),   //hour
+            "m+" : this.getMinutes(), //minute
+            "s+" : this.getSeconds(), //second
+            "q+" : Math.floor((this.getMonth()+3)/3),  //quarter
+            "S" : this.getMilliseconds() //millisecond
+        };
+        if(/(y+)/.test(format)) format=format.replace(RegExp.$1,
+            (this.getFullYear()+"").substr(4 - RegExp.$1.length));
+        for(var k in o)if(new RegExp("("+ k +")").test(format))
+            format = format.replace(RegExp.$1,
+                RegExp.$1.length === 1 ? o[k] :
+                    ("00"+ o[k]).substr((""+ o[k]).length));
+        return format;
+    };
+    /**
+     * @return {string|null}
+     */
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg); //search,查询？后面的参数，并匹配正则
+        if (r != null)
+            return unescape(r[2]);
+        return null;
+    }
+
+    var start = getQueryString("start");
+    var end = getQueryString("end");
+    if (start === null || end === null) {
+        var start0 = new Date();
+        start0.setMilliseconds(start0.getMilliseconds() - 1000 * 60 * 60 * 24);
+        start = start0.format("yyyy-MM-ddThh:mm");
+        var end0 = new Date();
+        end0.setMilliseconds(end0.getMilliseconds() + 1000 * 60);
+        end = end0.format("yyyy-MM-ddThh:mm");
+    }
+    $("#start").val(start);
+    $("#end").val(end);
+
+    registerStatistic("总人数", ["global"], start, end, true);
+    registerStatistic("大厅", ["lobby.main", "lobby.pit", "lobby.cw", "lobby.parkour"], start, end, false);
+    registerStatistic("水晶战争",
+        [
+            "stage.bedwars",
+            "stage.bedwars-crazy",
+            "stage.bedwars-crazy-exp",
+            "stage.bedwars-due",
+            "stage.bedwars-four",
+            "stage.bedwars-greenhand",
+            "stage.bedwars-solo",
+            "stage.bedwars-mini"
+        ], start, end, false, 500);
+    registerStatistic("PvP竞技类小游戏",
+        [
+            "stage.sg",
+            "stage.sw-single",
+            "stage.sw-team",
+            "stage.miniwalls",
+            "stage.walls",
+            "stage.buhc_arrow",
+            "stage.buhc_combo",
+            "stage.buhc_nor",
+            "stage.buhc_team",
+            "stage.fb",
+            "stage.lb_team"
+        ],
+        start, end, false, 500);
+    registerStatistic("休闲类小游戏",
+        [
+            "stage.pg",
+            "stage.color",
+            "stage.boom",
+            "stage.drop",
+            "stage.fc",
+            "stage.hg",
+            "stage.football",
+            "stage.gc",
+            "stage.grave",
+            "stage.spleef",
+            "stage.wp",
+            "stage.zvs"
+        ],
+        start, end, false, 500);
+
+    function preDraw(tag) {
+        $("body").append("<div class='wrapper' id='" + tag + "'></div>");
+        $("#" + tag).append("<h1>" + tag + "</h1>");
+        $("#" + tag).click(function() {
+            if (!statistics[tag].loaded) {
+                query(tag);
+            }
+        });
+        $("#" + tag).append("<p class='startload'>点击卡片开始加载</p>");
+    }
+
+    function drawLoading(tag) {
+        $("#" + tag).append("<div id=\"loading\"><div class=\"outer\"></div><div class=\"inner\"></div></div>");
+        $("#" + tag + " .startload").remove();
+    }
+
+    function drawFail(tag, text) {
+        $("#" + tag + " #loading").slideUp();
+        $("#" + tag).append("<p class='fail'>" + text + "</p>");
+    }
+
+    function draw(tag, data, height) {
+        $("#" + tag + " #loading").slideUp();
+        if (data === null) {
+            $("#" + tag).append("<p class='fail'>哎呀，没有数据可以显示！</p>");
+            return;
+        }
+        height = arguments[2] ? arguments[2] : 230;
+        var options1 = {
+            chart: {
+                id: tag,
+                type: "area",
+                height: height,
+                foreColor: "#ccc",
+                toolbar: {
+                    autoSelected: "pan",
+                    show: false
+                },
+                animations: {
+                    enabled: false
+                }
+            },
+            colors: ["#00BAEC", "#5D4EFC", "#FE9D21", "#E9CCB4", "#E40F13", "#55A7E4", "#A3DA53", "#3BD0D0"],
+            stroke: {
+                width: 2
+            },
+            grid: {
+                borderColor: "#555",
+                yaxis: {
+                    lines: {
+                        show: false
+                    }
+                }
+            },
+            dataLabels: {
+                enabled: false
+            },
+            fill: {
+                gradient: {
+                    enabled: true,
+                    opacityFrom: 0.55,
+                    opacityTo: 0
+                }
+            },
+            series: data,
+            tooltip: {
+                theme: "dark"
+            },
+            xaxis: {
+                type: "datetime"
+            },
+            yaxis: {
+                min: 0,
+                tickAmount: 4
+            }
+        };
+
+        $("#" + tag).append("<div id=\"" + tag + "-area\"></div>");
+        var chart1 = new ApexCharts(document.querySelector("#" + tag + "-area"), options1);
+
+        chart1.render();
+
+        var options2 = {
+            chart: {
+                animations: {
+                    enabled: false
+                },
+                id: tag + "_bar",
+                height: 130,
+                type: "bar",
+                foreColor: "#ccc",
+                brush: {
+                    target: tag,
+                    enabled: true
+                },
+                selection: {
+                    fill: {
+                        color: "#fff",
+                        opacity: 0.4
+                    }
+                }
+            },
+            legend: {
+                show: false
+            },
+            colors: ["#00BAEC", "#5D4EFC", "#FE9D21", "#E9CCB4", "#E40F13", "#55A7E4", "#A3DA53", "#3BD0D0"],
+            series: data,
+            stroke: {
+                width: 2
+            },
+            grid: {
+                borderColor: "#444"
+            },
+            markers: {
+                size: 0
+            },
+            xaxis: {
+                type: "datetime",
+                tooltip: {
+                    enabled: false
+                }
+            },
+            yaxis: {
+                tickAmount: 2
+            }
+        };
+
+        $("#" + tag).append("<div class='chart-bar' id=\"" + tag + "-bar\"></div>");
+
+        var chart2 = new ApexCharts(document.querySelector("#" + tag + "-bar"), options2);
+
+        chart2.render();
+    }
+
+    function generateDayWiseTimeSeries(baseval, count, yrange) {
+        var i = 0;
+        var series = [];
+        while (i < count) {
+            var x = baseval;
+            var y =
+                Math.floor(Math.random() * (yrange.max - yrange.min + 1)) + yrange.min;
+
+            series.push([x, y]);
+            baseval += 86400000;
+            i++;
+        }
+        return series;
+    }
+
+    function registerStatistic(tag, types, start, end, queryNow, height) {
+        statistics[tag] = {
+            tag: tag,
+            types: types,
+            start: start,
+            end: end,
+            height: height,
+            loaded: false
+        };
+        preDraw(tag);
+        if (queryNow) {
+            query(tag);
+        }
+    }
+
+    function query(tag) {
+        statistics[tag].loaded = true;
+        drawLoading(tag);
+        var types = statistics[tag].types;
+        var start = statistics[tag].start;
+        var end = statistics[tag].end;
+        var height = statistics[tag].height;
+
+        var series = [];
+        var type0 = "";
+        types.forEach(function (value) {
+            series.push({
+                name: value,
+                data: []
+            });
+            type0 += value;
+            type0 += ",";
+        });
+        var xhr = $.getJSON("http://ntest.easecation.net:25565/ecapi/statistics?type=" + type0 + "&start=" + start + "&end=" + end, function(api) {
+            var suc = false;
+            $.each(api, function (k, v) {
+                var x = v.timestamp;
+                var y = v.count;
+                series.forEach(function (value) {
+                    if (value.name === v.type) {
+                        value.data.push([x, y]);
+                        suc = true;
+                    }
+                });
+            });
+            draw(tag, suc ? series : null, height);
+        });
+        xhr.fail(function (jqXHR, textStatus, ex) {
+            drawFail(tag, '请求失败，原因: ' + ex.message);
+        });
+    }
+</script>
+
+<div style="text-align:center;clear:both;font-size:10pt;color:white;opacity: 0.3;">
+    Copyright 2015-2018 EaseCation Network | Powered by ApexCharts
+</div>
+
+</body>
+</html>
